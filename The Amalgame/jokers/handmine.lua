@@ -9,7 +9,7 @@ SMODS.Joker{ --Hand Mine
     loc_txt = {
         ['name'] = 'Hand Mine',
         ['text'] = {
-            [1] = 'Gains {X:red,C:white}X0.5{} Mult for each #2# played this round.',
+            [1] = 'Gains {X:red,C:white}X0.5{} Mult for each {C:attention}#2#{} played this round.',
             [2] = '{C:inactive}(Resets at end of round){}',
             [3] = 'Currently {X:red,C:white}X#1#{} Mult'
         },
@@ -18,7 +18,7 @@ SMODS.Joker{ --Hand Mine
         }
     },
     pos = {
-        x = 0,
+        x = 2,
         y = 0
     },
     display_size = {
@@ -32,8 +32,8 @@ SMODS.Joker{ --Hand Mine
     perishable_compat = true,
     unlocked = true,
     discovered = true,
-    atlas = 'Joker',
-    pools = { ["amalgame_amalgame_jokers"] = true, ["aamalgame_amalgame_pack"] = true },
+    atlas = 'CustomJokers',
+    pools = { ["amalgame_amalgame_jokers"] = true, ["amalgame_amalgame_pack"] = true },
     
     loc_vars = function(self, info_queue, card)
         

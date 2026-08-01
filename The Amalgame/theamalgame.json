@@ -7,7 +7,7 @@
   "description": "A small vanilla-ish content mod that implements a few cards from a game i'm working on, plus some other stuff.",
   "prefix": "amalgame",
   "main_file": "main.lua",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "priority": 0,
   "badge_colour": "6699FF",
   "badge_text_colour": "FFFFFF",
