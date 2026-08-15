@@ -13,7 +13,7 @@ SMODS.Joker{ --Debit Card
             [1] = '{C:blue}Gain{} {C:money}$15{} when purchased from shop.',
             [2] = '{C:red}Lose {}{C:money}$#1#{} when sold.',
             [3] = '{C:red}Amount lost{} decreases by',
-            [4] = '{C:money}$1{} at end of round.'
+            [4] = '{C:money}$2{} at end of round.'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'
@@ -30,7 +30,7 @@ SMODS.Joker{ --Debit Card
     cost = 1,
     rarity = 2,
     blueprint_compat = false,
-    eternal_compat = true,
+    eternal_compat = false,
     perishable_compat = true,
     unlocked = true,
     discovered = true,
@@ -80,13 +80,34 @@ SMODS.Joker{ --Debit Card
             }
         end
         if context.end_of_round and context.game_over == false and context.main_eval  then
-            if to_big((card.ability.extra.DebtCost or 0)) > to_big(0) then
+            if (to_big((card.ability.extra.DebtCost or 0)) > to_big(0) and to_big((card.ability.extra.DebtCost or 0)) <= to_big(0)) then
                 return {
                     func = function()
-                        card.ability.extra.DebtCost = math.max(0, (card.ability.extra.DebtCost) - 1)
+                        card.ability.extra.DebtCost = math.max(0, (card.ability.extra.DebtCost) - 2)
                         return true
                     end,
-                    message = "Debt Lowered!"
+                    message = "Debt Lowered!",
+                    extra = {
+                        func = function()
+                            local target_joker = card
+                            
+                            if target_joker then
+                                if target_joker.ability.eternal then
+                                    target_joker.ability.eternal = nil
+                                end
+                                target_joker.getting_sliced = true
+                                G.E_MANAGER:add_event(Event({
+                                    func = function()
+                                        target_joker:start_dissolve({G.C.RED}, nil, 1.6)
+                                        return true
+                                    end
+                                }))
+                                card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = "Repaid!", colour = G.C.RED})
+                            end
+                            return true
+                        end,
+                        colour = G.C.RED
+                    }
                 }
             end
         end

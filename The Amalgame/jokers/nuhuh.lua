@@ -10,7 +10,7 @@ SMODS.Joker{ --Nuh-Uh
         ['name'] = 'Nuh-Uh',
         ['text'] = {
             [1] = 'At end of shop, {C:red}destroys {}a random',
-            [2] = 'consumable to gain {C:blue}+15{} chips.',
+            [2] = 'consumable to gain {C:blue}+20{} chips.',
             [3] = 'Currently {C:blue}+#1#{} Chips'
         },
         ['unlock'] = {
@@ -63,7 +63,7 @@ SMODS.Joker{ --Nuh-Uh
                     end,
                     extra = {
                         func = function()
-                            card.ability.extra.myChips = (card.ability.extra.myChips) + 15
+                            card.ability.extra.myChips = (card.ability.extra.myChips) + 20
                             return true
                         end,
                         colour = G.C.GREEN

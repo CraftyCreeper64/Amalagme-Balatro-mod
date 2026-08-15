@@ -3,15 +3,16 @@ SMODS.Joker{ --Parry
     key = "parry",
     config = {
         extra = {
+            housesPlayed = 0,
             mult0 = 10,
-            dollars0 = 1
         }
     },
     loc_txt = {
         ['name'] = 'Parry',
         ['text'] = {
-            [1] = '{C:red}+10{} Mult and {C:money}+$1{} if played hand contains',
-            [2] = 'a full house.'
+            [1] = 'If played hand is a full house, {C:red}+10{} Mult.',
+            [2] = 'Gain {C:money}$1{} for each {C:red}consecutive {}full house played.',
+            [3] = '{C:inactive}Currently{} {C:money}+$#1#{}'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'
@@ -35,25 +36,38 @@ SMODS.Joker{ --Parry
     atlas = 'CustomJokers',
     pools = { ["amalgame_amalgame_jokers"] = true, ["amalgame_amalgame_pack"] = true },
     
+    loc_vars = function(self, info_queue, card)
+        
+        return {vars = {card.ability.extra.housesPlayed or 0}}
+    end,
+
     calculate = function(self, card, context)
+        
         if context.cardarea == G.jokers and context.joker_main  then
+            card.ability.extra.housesPlayed = card.ability.extra.housesPlayed or 0
             if next(context.poker_hands["Full House"]) then
+                card.ability.extra.housesPlayed = (card.ability.extra.housesPlayed) + 1
                 return {
-                    mult = 10,
+                    message = "Upgrade!",
                     extra = {
-                        
-                        func = function()
+                        mult = 10,
+                        extra = {
                             
-                            local current_dollars = G.GAME.dollars
-                            local target_dollars = G.GAME.dollars + 1
-                            local dollar_value = target_dollars - current_dollars
-                            ease_dollars(dollar_value)
-                            card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = "+"..tostring(1), colour = G.C.MONEY})
-                            return true
-                        end,
-                        colour = G.C.MONEY
+                            func = function()
+                                
+                                local current_dollars = G.GAME.dollars
+                                local target_dollars = G.GAME.dollars + card.ability.extra.housesPlayed
+                                local dollar_value = target_dollars - current_dollars
+                                ease_dollars(dollar_value)
+                                card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = "+"..tostring(card.ability.extra.housesPlayed), colour = G.C.MONEY})
+                                return true
+                            end,
+                            colour = G.C.MONEY
+                        }
                     }
                 }
+            elseif not next(context.poker_hands["Full House"]) then
+                card.ability.extra.housesPlayed = 0
             end
         end
     end

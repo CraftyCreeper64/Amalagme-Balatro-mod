@@ -7,11 +7,13 @@ SMODS.Joker{ --Hand Mine
         }
     },
     loc_txt = {
-        ['name'] = 'Hand Mine',
+         ['name'] = 'Hand Mine',
         ['text'] = {
-            [1] = 'Gains {X:red,C:white}X0.5{} Mult for each {C:attention}#2#{} played this round.',
-            [2] = '{C:inactive}(Resets at end of round){}',
-            [3] = 'Currently {X:red,C:white}X#1#{} Mult'
+            [1] = 'This joker gains {X:red,C:white}X0.3{} Mult when a',
+            [2] = '{C:1}#2#{} card is {C:red}destroyed{}.',
+            [3] = 'Suit changes when a booster pack',
+            [4] = 'is skipped.',
+            [5] = 'Currently {X:mult,C:white}X#1#{} Mult.'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'
@@ -37,44 +39,53 @@ SMODS.Joker{ --Hand Mine
     
     loc_vars = function(self, info_queue, card)
         
-        return {vars = {card.ability.extra.myXmult, localize((G.GAME.current_round.targetRank_card or {}).rank or 'Ace', 'ranks')}}
+        return {vars = {card.ability.extra.myXmult, localize((G.GAME.current_round.targetSuit_card or {}).suit or 'Spades', 'suits_singular')}, colours = {G.C.SUITS[(G.GAME.current_round.targetSuit_card or {}).suit or 'Spades']}}
     end,
     
     set_ability = function(self, card, initial)
-        G.GAME.current_round.targetRank_card = { rank = '7', id = 7 }
+        G.GAME.current_round.targetSuit_card = { suit = 'Spades' }
     end,
     
     calculate = function(self, card, context)
-        if context.end_of_round and context.game_over == false and context.main_eval  then
+        if context.remove_playing_cards then
+        local matched = 0
+        for k, removed_card in ipairs(context.removed) do
+            if removed_card:is_suit(G.GAME.current_round.targetSuit_card.suit) then
+                matched = matched + 1
+            end
+        end
+
+        if matched > 0 then
+            return {
+                func = function()
+                    card.ability.extra.myXmult = card.ability.extra.myXmult + (0.3 * matched)
+                    return true
+                end,
+                message = "Upgrade!"
+            }
+        end
+    end
+        if context.skipping_booster  then
             if G.playing_cards then
-                local valid_targetRank_cards = {}
+                local valid_targetSuit_cards = {}
                 for _, v in ipairs(G.playing_cards) do
-                    if not SMODS.has_no_rank(v) then
-                        valid_targetRank_cards[#valid_targetRank_cards + 1] = v
+                    if not SMODS.has_no_suit(v) then
+                        valid_targetSuit_cards[#valid_targetSuit_cards + 1] = v
                     end
                 end
-                if valid_targetRank_cards[1] then
-                    local targetRank_card = pseudorandom_element(valid_targetRank_cards, pseudoseed('targetRank' .. G.GAME.round_resets.ante))
-                    G.GAME.current_round.targetRank_card.rank = targetRank_card.base.value
-                    G.GAME.current_round.targetRank_card.id = targetRank_card.base.id
+                if valid_targetSuit_cards[1] then
+                    local targetSuit_card = pseudorandom_element(valid_targetSuit_cards, pseudoseed('targetSuit' .. G.GAME.round_resets.ante))
+                    G.GAME.current_round.targetSuit_card.suit = targetSuit_card.base.suit
                 end
             end
             return {
-                func = function()
-                    card.ability.extra.myXmult = 1
-                    return true
-                end
+                message = "Shuffled!"
             }
         end
-        if context.cardarea == G.jokers and context.joker_main  then
+        if context.cardarea == G.jokers and context.joker_main then
             return {
                 Xmult = card.ability.extra.myXmult
             }
-        end
-        if context.individual and context.cardarea == G.play  then
-            if context.other_card:get_id() == 14 then
-                card.ability.extra.myXmult = (card.ability.extra.myXmult) + 0.5
-            end
         end
     end
 }

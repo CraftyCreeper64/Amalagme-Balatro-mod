@@ -9,8 +9,9 @@ SMODS.Joker{ --Stats Card
     loc_txt = {
         ['name'] = 'Stats Card',
         ['text'] = {
-            [1] = 'Each Scored card gives {C:red}+1 Mult{} for each card scored before it.',
-            [2] = '{C:inactive}(Including retriggers){}'
+            [1] = 'Each Scored card gives {C:red}+1 Mult{}',
+            [2] = 'for each card scored before it.',
+            [3] = '{C:inactive}(Including retriggers){}'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'
