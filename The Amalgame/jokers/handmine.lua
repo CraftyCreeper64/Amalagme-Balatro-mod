@@ -10,7 +10,7 @@ SMODS.Joker{ --Hand Mine
          ['name'] = 'Hand Mine',
         ['text'] = {
             [1] = 'This joker gains {X:red,C:white}X0.3{} Mult when a',
-            [2] = '{C:1}#2#{} card is {C:red}destroyed{}.',
+            [2] = '{C:attention}#2#{} card is {C:red}destroyed{}.',
             [3] = 'Suit changes when a booster pack',
             [4] = 'is skipped.',
             [5] = 'Currently {X:mult,C:white}X#1#{} Mult.'

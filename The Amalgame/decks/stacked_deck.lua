@@ -7,7 +7,7 @@ SMODS.Back {
     loc_txt = {
         name = 'Stacked Deck',
         text = {
-            [1] = 'Start with an {C:purple}eternal {}{C:dark_edition}negative {}{C:uncommon}Oops, All 6\'s{}'
+            [1] = 'Start with an {C:purple}eternal {}{C:dark_edition}negative {}{C:uncommon}Oops! All 6s{}'
         },
     },
     unlocked = true,

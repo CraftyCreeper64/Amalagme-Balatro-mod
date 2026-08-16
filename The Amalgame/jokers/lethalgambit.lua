@@ -12,8 +12,9 @@ SMODS.Joker{ --Lethal Gambit
         ['text'] = {
             [1] = '{C:hearts}Destroys {}a random joker at end of {C:green}shop{}.',
             [2] = 'After {C:attention}3{} shops, sell this joker to create',
-            [3] = 'a random {C:legendary}Legendary{} joker.',
-            [4] = '{C:inactive}{}{C:inactive}#1#/3{}'
+            [3] = 'a random {C:legendary, E:1}Legendary{} joker.',
+            [4] = '{C:inactive}This joker can destroy itself.{}',
+            [5] = '{C:inactive}#1#/3{}'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'
@@ -48,7 +49,7 @@ SMODS.Joker{ --Lethal Gambit
                 func = function()
                     local destructable_jokers = {}
                     for i, joker in ipairs(G.jokers.cards) do
-                        if joker ~= card and not SMODS.is_eternal(joker) and not joker.getting_sliced then
+                        if not SMODS.is_eternal(joker) and not joker.getting_sliced then
                             table.insert(destructable_jokers, joker)
                         end
                     end
@@ -76,7 +77,7 @@ SMODS.Joker{ --Lethal Gambit
             }
         end
         if context.selling_self  then
-            if to_big((card.ability.extra.var1 or 0)) >= to_big(3) then
+            if to_big((card.ability.extra.gambitCounter or 0)) >= to_big(3) then
                 return {
                     func = function()
                         

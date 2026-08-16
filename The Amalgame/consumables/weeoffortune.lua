@@ -6,7 +6,7 @@ SMODS.Consumable {
     loc_txt = {
         name = 'Wee of Fortune',
         text = {
-            [1] = 'Convert up to {C:attention}2{} selected cards into {C:attention}wheel cards{}.'
+            [1] = 'Convert up to {C:attention}2{} selected cards into {C:attention}Wheel cards{}.'
         }
     },
     cost = 3,

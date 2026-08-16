@@ -8,7 +8,7 @@ SMODS.Joker{ --Combustion Cat
     loc_txt = {
          ['name'] = 'Combustion Cat',
         ['text'] = {
-            [1] = 'Converts all played {C:1}#1#{} cards to {C:attention}Glass{}.',
+            [1] = 'Converts all played {C:attention}#1#{} cards to {C:attention}Glass{}.',
             [2] = 'Whenever one or more {C:attention}Glass{} cards {C:red}break{},',
             [3] = 'add a {C:green,E:1}random {}card with a {C:green,E:1}random {}{C:spectral}seal {}to hand.',
             [4] = '{C:inactive}(Suit changes at end of round){}'

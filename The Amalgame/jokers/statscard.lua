@@ -10,7 +10,7 @@ SMODS.Joker{ --Stats Card
         ['name'] = 'Stats Card',
         ['text'] = {
             [1] = 'Each Scored card gives {C:red}+1 Mult{}',
-            [2] = 'for each card scored before it.',
+            [2] = 'for each card scored this hand.',
             [3] = '{C:inactive}(Including retriggers){}'
         },
         ['unlock'] = {

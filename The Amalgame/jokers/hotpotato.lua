@@ -11,7 +11,7 @@ SMODS.Joker{ --Hot Potato
         ['name'] = 'Hot Potato',
         ['text'] = {
             [1] = '{X:red,C:white}X2{} Mult, {C:green}#1# in #2#{} chance of {C:red}destroying {}',
-            [2] = 'the joker to the left when hand played.'
+            [2] = 'the joker to the left when hand is played.'
         },
         ['unlock'] = {
             [1] = 'Unlocked by default.'
